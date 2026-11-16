@@ -10,92 +10,123 @@
 ## 一、簡報內容
 
 
-### s1　擴散模型是怎麼生成圖片的？（引用：overview）
-- 一份給新手的 10 分鐘入門
-- 用我自己整理的 LLM Wiki（8 個來源）做成
+### s1　AI 是怎麼「畫」出一張圖的？（引用：concepts/plain-language）
+- 給完全新手的白話入門，大約十分鐘
+- 不用會數學，只要看過電視的雪花畫面就好
 
-### s2　一句話原理（引用：overview）
-- 先學會「把雜訊一點一點擦掉」
-- 生成時從一張純雜訊開始，一步一步擦成一張圖
-- 想像成：把一張被雪花雜訊蓋滿的電視畫面，慢慢調回清楚的影像
+### s2　你打一句話，AI 就畫出一張圖（引用：concepts/plain-language,overview）
+- Stable Diffusion、DALL-E 這些產品，背後用的都是「擴散模型」
+- 今天只回答一個問題：它到底是怎麼畫出來的？
 
-### s3　兩個過程（引用：overview）
-- 擴散模型由前向過程和反向過程組成
-- 前向：每一步加一點高斯雜訊，加到最後變成純雜訊，這個過程是固定的，不用學
-- 反向：訓練神經網路從純雜訊一步一步把雜訊拿掉
+### s3　第一步：把照片慢慢變成雪花（引用：concepts/plain-language,concepts/forward-process）
+- 每一步在照片上加一點雜訊，最後整張變成一片雜訊
+- 就像電視收訊越來越差，畫面變成一片雪花
+- 這一步是固定的規則，不用學
 
-### s4　前向過程：一步一步加雜訊（引用：concepts/forward-process）
-- 從真圖片 x₀ 出發，得到 x₁、x₂……一直到 x_T
-- DDPM 的總步數是 T = 1000
-- 小技巧：可以用公式直接算出任意第 t 步的 x_t，訓練時不用真的一步一步加
-- 名字由來：靈感來自非平衡熱力學，就像墨水在水裡擴散
+### s4　第二步：學會把雪花擦掉（引用：concepts/plain-language,concepts/reverse-process）
+- 模型要學的是反過來：從雪花開始，一點一點擦回一張圖
+- 就像把影片倒著播
 
-### s5　雜訊排程：每一步加多少？（引用：concepts/noise-schedule）
-- 每一步加多少雜訊由 β_t 控制
-- DDPM 用 linear schedule：β 從 0.0001 增加到 0.02
-- 也可以用 cosine 等其他排程
-- 一開始加一點點，後面越加越多
+### s5　為什麼要分很多小步？（引用：concepts/plain-language,concepts/reverse-process）
+- 每次只擦一點點，事情就變簡單
+- 就像擦一片很髒的玻璃，一次擦一點，比一次擦乾淨容易
+- 原始論文分成 1000 小步
 
-### s6　反向過程：從雜訊還原成圖片（引用：concepts/reverse-process）
-- 反向過程是要學的那一半
-- 生成時先隨機抽一張純雜訊，再重複套用去雜訊網路
-- 每一步網路都會拿到目前的 x_t 和步數 t
-- 為什麼分很多步？每一步只要去掉一點點雜訊，問題就變簡單
+### s6　它怎麼練習？像寫練習題（引用：concepts/plain-language,concepts/training-objective）
+- 程式自己加雪花，所以知道正確答案
+- 模型猜「被加了哪些雪花」，跟答案比，錯多少就改多少
 
-### s7　訓練時到底在學什麼？（引用：concepts/training-objective）
-- 程式自己加雜訊，所以知道「標準答案」
-- 網路看 x_t 和 t，預測加進去的雜訊
-- 損失 = 真雜訊和預測雜訊的均方誤差（MSE）
-- Ho 等人發現簡化版損失效果更好
+### s7　真的畫圖時：從一片雪花開始（引用：concepts/plain-language,concepts/reverse-process）
+- 先隨機產生一片雪花，再一次又一次地擦
+- 擦完，就是一張新的圖
 
-### s8　誰在猜雜訊？U-Net（引用：concepts/unet-backbone）
-- 去雜訊的網路叫 backbone，通常是 U-Net 或 Transformer
-- U-Net 先把輸入縮小，再放大回來
-- 中間有 residual 連線，也加了 attention
-- 時間步 t 會轉成向量餵進網路
+### s8　怎麼讓它照你的話畫？（引用：concepts/plain-language,concepts/text-conditioning）
+- 你打的字會先轉成電腦看得懂的樣子，擦雪花時一起參考
+- 有一個「聽話旋鈕」，調高會更像你打的字
+- 但這是取捨：越聽話，每張圖的變化就越少
 
-### s9　為什麼慢？怎麼變快？（引用：concepts/sampling-speed,comparisons/ddpm-vs-ddim）
-- 在 2080 Ti 上，DDPM 生 5 萬張小圖約 20 小時，GAN 不到一分鐘
-- DDIM 跟 DDPM 用同樣的訓練方式，只換取樣方法
-- DDIM 速度快 10～50 倍
-- Stable Diffusion 預設取樣 50 步，只用 15 步品質就會明顯變差
+### s9　缺點：畫得很慢（引用：concepts/plain-language,concepts/sampling-speed）
+- 要擦很多次，所以畫一張圖要算很多遍
+- 產生 5 萬張小圖：擴散模型約 20 小時，另一種方法不到一分鐘
+- 後來有人想出新畫法，不用重新練習，就快 10～50 倍
 
-### s10　Latent Diffusion：先壓縮，再擴散（引用：concepts/latent-diffusion）
-- 問題：直接在像素上做擴散，訓練常常要上百個 GPU 天
-- 用預訓練的 autoencoder 把圖片壓縮成 latent
-- 在 latent 上擴散，成本更低、更快
-- 以 Stable Diffusion 為例：512×512 的圖會變成 64×64 的 latent
+### s10　Stable Diffusion 的妙招：先壓縮再畫（引用：concepts/plain-language,concepts/latent-diffusion）
+- 直接在大圖上做太花時間，訓練要用顯示卡算上百天
+- 先把 512×512 的圖壓成 64×64 的精簡版，在小的上面擦，最後再還原
 
-### s11　怎麼讓它「照著文字畫」？（引用：concepts/text-conditioning）
-- 文字先經過 text encoder，再透過 cross-attention 影響去雜訊網路
-- CFG：同一個模型同時學「有條件」和「無條件」
-- 訓練時隨機把文字丟掉
-- guidance 調越大越貼近提示詞，但太大圖會比較單調
+### s11　一張圖記住全部（引用：concepts/plain-language,overview）
+- ① 把照片變成雪花（固定規則）
+- ② 練習把雪花擦掉（要學的部分）
+- ③ 從一片新的雪花，擦出一張新的圖
 
-### s12　跟 GAN、VAE 比一比（引用：comparisons/diffusion-vs-gan-vae）
-- 三種模型都是把簡單的雜訊轉成資料
-- GAN 訓練可能不穩、多樣性較低
-- DDPM 不用對抗式訓練就能做出高品質圖片
-- 代價：生成要很多步，比較慢
-
-### s13　發展時間軸（引用：timeline）
-- 2015：擴散模型首次被提出
-- 2020-06：DDPM（FID 3.17）；2020-10：DDIM
-- 2021-12：Latent Diffusion
-- 2022：Classifier-Free Guidance 論文上 arXiv
-
-### s14　小測驗：你答得出來嗎？（引用：overview,concepts/training-objective,concepts/text-conditioning）
-- Q1 前向過程需要訓練嗎？→ 不用，它是固定的
-- Q2 網路訓練時在猜什麼？→ 加進去的雜訊
-- Q3 CFG 調太大會怎樣？→ 更貼近提示詞，但圖會比較單調
-
-### s15　總結＋延伸閱讀（引用：index,concepts/stable-diffusion-pipeline）
-- 加雜訊（固定）→ 學去雜訊（訓練）→ 從雜訊生成（取樣）
-- Stable Diffusion = VAE + U-Net + CLIP 文字編碼器
-- 想看更多：打開我的 Wiki 索引，每一頁都有原始來源
+### s12　小測驗：你答得出來嗎？（引用：concepts/plain-language）
+- 先想想看，再點一下答案
+- Q1 第一步「把照片變成雪花」需要模型去學嗎？→ 不用，那是固定的規則
+- Q2 練習的時候，模型在猜什麼？→ 被加了哪些雪花（雜訊）
+- Q3 為什麼它畫圖比較慢？→ 因為要擦很多次
 
 
 ## 二、引用到的 wiki 頁全文
+
+
+---
+### wiki/concepts/plain-language.md
+
+---
+title: 白話版：給完全新手的擴散模型
+type: concept
+sources: [S1, S2, S3, S4, S5, S6, S7, S8]
+updated: 2026-11-16
+---
+
+# 白話版：給完全新手的擴散模型
+
+> 這頁是因為「簡報太難、看不懂」的回饋才新增的。內容全部來自其他 wiki 頁和原始來源，只是把話講白；每一句後面仍然標來源。最下面的比喻是我自己加的，用來幫助理解，不是來源的說法。
+
+## 打字就能出圖的產品，用的就是它
+- Stable Diffusion、DALL-E 這些打字就能出圖的產品，背後用的都是擴散模型 [S7]。
+- 它們會再加上看懂文字的零件，讓圖照著你打的字來畫 [S7]。
+
+## 第一步：把照片一點一點弄花
+- 拿一張真的照片，每一步加一點雜訊，加到最後整張變成一片雜訊 [S3]。
+- 這一步是固定的規則，電腦不用學 [S3]。
+- 原始論文把這件事分成 1000 小步 [S3]。
+
+## 第二步：學會把雜訊擦掉
+- 模型真正要學的是反過來：從一片雜訊開始，一點一點把雜訊擦掉，最後變回一張圖 [S3]。
+- 分成很多小步，是因為每一步只擦一點點，事情就變簡單 [S3]。
+
+## 怎麼練習
+- 練習時，程式自己在照片上加雜訊，所以知道正確答案是哪些雜訊 [S3]。
+- 模型的任務是猜出被加了哪些雜訊，再跟正確答案比，差多少就修正多少 [S3]。
+
+## 真的要畫圖時
+- 先隨機產生一片雜訊，再讓模型一次又一次地擦，擦完就是一張新的圖 [S7]。
+
+## 怎麼讓它照你的話畫
+- 你打的字會先被轉成電腦看得懂的形式，在擦雜訊的時候一起參考 [S5][S7]。
+- 有一個聽話程度的旋鈕（guidance_scale），調高會更貼近你打的字 [S8]。
+- 這個旋鈕是在畫得好和每張都不一樣之間做取捨 [S6]。
+
+## 缺點：很慢
+- 因為要擦很多次，畫一張圖要算很多遍，這幾乎是它唯一的大缺點 [S3]。
+- 舉例：用同一張顯示卡產生 5 萬張小圖，DDPM 大約要 20 小時，GAN 不到一分鐘 [S2]。
+- 後來有人想出新的畫法 DDIM，不用重新訓練，就能快 10～50 倍 [S4]。
+
+## Stable Diffusion 的妙招：先壓縮再畫
+- 直接在原本大小的圖上做，訓練常常要花上百個 GPU 天（GPU 就是顯示卡）[S5]。
+- Stable Diffusion 先把 512×512 的圖壓縮成 64×64 的精簡版，在精簡版上擦雜訊，最後再還原成大圖 [S8]。
+
+## 名字的由來
+- 「擴散」這個名字，靈感來自物理學裡的熱力學 [S1]。
+
+## 比喻（我自己加的，不是來源的說法）
+加雜訊就像電視收訊越來越差，畫面變成一片雪花；模型學的是反過來，把雪花一點一點擦掉。練習的方式像寫練習題：老師自己灑雪花，所以知道答案，學生負責猜。分很多小步，就像擦一片很髒的玻璃，一次擦一點，比一次擦乾淨容易。「擴散」這兩個字，可以想成一滴墨水在水裡慢慢散開。
+
+## 相關頁面
+- [[overview|總覽]]：比較完整的版本
+- [[concepts/forward-process|前向過程]]、[[concepts/reverse-process|反向過程]]、[[concepts/training-objective|訓練目標]]
+- [[concepts/text-conditioning|文字條件與 CFG]]、[[concepts/sampling-speed|取樣加速]]、[[concepts/latent-diffusion|Latent Diffusion]]
 
 
 ---
@@ -132,6 +163,7 @@ updated: 2026-11-16
 生成時要跑很多步，所以很慢 [S3]。→ [[concepts/sampling-speed|取樣加速]]
 
 ## 延伸閱讀
+- [[concepts/plain-language|白話版（給完全新手）]]
 - [[concepts/noise-schedule|雜訊排程]]
 - [[comparisons/ddpm-vs-ddim|DDPM vs DDIM]]
 - [[timeline|發展時間軸]]
@@ -166,32 +198,6 @@ updated: 2026-11-16
 ## 相關頁面
 - [[concepts/reverse-process|反向過程]]：前向的「倒帶」
 - [[overview|總覽]]
-
-
----
-### wiki/concepts/noise-schedule.md
-
----
-title: 雜訊排程（Noise / Variance Schedule）
-type: concept
-sources: [S2, S3]
-updated: 2026-11-16
----
-
-# 雜訊排程（Variance Schedule）
-
-前向過程每一步加多少雜訊，由一組 β_t 控制，β_t 介於 0 和 1 之間 [S2]。
-
-- β_t 不是固定值，每一步都不一樣，所以叫「排程」，有點像學習率排程 [S3]。
-- 排程可以是 linear、quadratic、cosine 等 [S3]。
-- DDPM 原本用 **linear schedule**：β 從 **0.0001** 線性增加到 **0.02** [S3]。
-
-## 白話
-一開始只加一點點雜訊，後面越加越多。這樣前幾步圖片還保留很多細節，最後才完全變成雜訊。
-
-## 相關頁面
-- [[concepts/forward-process|前向過程]]
-- [[sources/s3-hf-annotated|S3 The Annotated Diffusion Model]]
 
 
 ---
@@ -253,32 +259,37 @@ Ho et al.（2020）發現，用一個忽略加權項的「簡化目標」訓練�
 
 
 ---
-### wiki/concepts/unet-backbone.md
+### wiki/concepts/text-conditioning.md
 
 ---
-title: U-Net 骨幹（Backbone）
+title: 文字條件與 Classifier-Free Guidance（CFG）
 type: concept
-sources: [S3, S5, S7]
+sources: [S2, S5, S6, S7, S8]
 updated: 2026-11-16
 ---
 
-# U-Net 骨幹
+# 文字條件與 CFG
 
-負責去雜訊的網路叫做 backbone，通常是 **U-Net 或 Transformer** [S7]。
+## 讓模型「照文字畫」
+- 文字會先經過文字編碼器（text encoder），再透過 cross-attention 影響去雜訊的網路 [S5][S7]。
+- Stable Diffusion 直接用訓練好的 CLIP 文字編碼器，不重新訓練 [S8]。
+- 程式裡的 guidance_scale 參數就是用來加強「貼近提示詞」的程度 [S8]。
 
-## DDPM 用的 U-Net
-- DDPM 的作者選了 U-Net（Ronneberger et al., 2015 提出）[S3]。
-- U-Net 先把輸入縮小（downsample），再放大回來（upsample）[S3]。
-- 中間有 residual 連線，讓梯度比較好傳 [S3]。
-- 卷積層之間也加了 attention 模組 [S3]。
-- 時間步 t 會被轉成向量（time embedding）餵進網路，讓它知道現在雜訊有多重 [S3]。
+## Classifier Guidance（舊方法）
+要另外訓練一個圖片分類器，用它的梯度把生成結果「推」向指定類別 [S6]。
 
-## 加上文字以後
-Latent Diffusion 在 U-Net 裡加入 **cross-attention** 層，讓文字等條件可以影響生成 [S5]。→ [[concepts/text-conditioning|文字條件與 CFG]]
+## Classifier-Free Guidance（CFG）
+- 不需要分類器：**同一個模型同時學「有條件」和「無條件」** 的生成 [S6]。
+- 做法：訓練時隨機把條件（例如文字）丟掉，讓模型也學會無條件生成 [S2]。
+- 生成時把兩種預測組合起來 [S6]。
+- 調整 guidance 強度，就是在**品質**和**多樣性**之間取捨 [S6]。
+
+## 白話
+CFG 就像問兩次：「照這句話畫會怎樣？」和「隨便畫會怎樣？」，然後把差異放大，讓圖更貼近提示詞；放太大，圖就會比較單調。
 
 ## 相關頁面
-- [[concepts/training-objective|訓練目標]]
 - [[concepts/latent-diffusion|Latent Diffusion]]
+- [[sources/s6-cfg|S6 CFG 論文]]
 
 
 ---
@@ -306,32 +317,6 @@ updated: 2026-11-16
 
 ## 相關頁面
 - [[concepts/reverse-process|反向過程]]
-
-
----
-### wiki/comparisons/ddpm-vs-ddim.md
-
----
-title: 比較：DDPM vs DDIM
-type: comparison
-sources: [S1, S3, S4]
-updated: 2026-11-16
----
-
-# DDPM vs DDIM
-
-| | DDPM（2020） | DDIM（2020） |
-|---|---|---|
-| 訓練 | 預測雜訊 + MSE [S3] | **跟 DDPM 一樣**，不用重練 [S4] |
-| 取樣 | 照馬可夫鏈一步一步走，很多步 [S4] | 非馬可夫的反向過程，可以少走很多步 [S4] |
-| 速度 | 慢 | 快 10～50 倍 [S4] |
-| 代表成果 | CIFAR10 FID 3.17 [S1] | 可以用計算量換品質 [S4] |
-
-重點：DDIM 是「換一種取樣方法」，不是換一個模型，所以同一個訓練好的模型可以直接拿來用 [S4]。
-
-## 相關頁面
-- [[concepts/sampling-speed|取樣加速]]
-- [[sources/s4-ddim|S4 DDIM 論文]]
 
 
 ---
@@ -368,169 +353,3 @@ Stable Diffusion 這類商業產品，就是把擴散模型和文字編碼器、
 - [[concepts/unet-backbone|U-Net 骨幹]]
 - [[concepts/stable-diffusion-pipeline|Stable Diffusion 的三個零件]]
 - [[sources/s5-latent-diffusion|S5 Latent Diffusion 論文]]
-
-
----
-### wiki/concepts/text-conditioning.md
-
----
-title: 文字條件與 Classifier-Free Guidance（CFG）
-type: concept
-sources: [S2, S5, S6, S7, S8]
-updated: 2026-11-16
----
-
-# 文字條件與 CFG
-
-## 讓模型「照文字畫」
-- 文字會先經過文字編碼器（text encoder），再透過 cross-attention 影響去雜訊的網路 [S5][S7]。
-- Stable Diffusion 直接用訓練好的 CLIP 文字編碼器，不重新訓練 [S8]。
-- 程式裡的 guidance_scale 參數就是用來加強「貼近提示詞」的程度 [S8]。
-
-## Classifier Guidance（舊方法）
-要另外訓練一個圖片分類器，用它的梯度把生成結果「推」向指定類別 [S6]。
-
-## Classifier-Free Guidance（CFG）
-- 不需要分類器：**同一個模型同時學「有條件」和「無條件」** 的生成 [S6]。
-- 做法：訓練時隨機把條件（例如文字）丟掉，讓模型也學會無條件生成 [S2]。
-- 生成時把兩種預測組合起來 [S6]。
-- 調整 guidance 強度，就是在**品質**和**多樣性**之間取捨 [S6]。
-
-## 白話
-CFG 就像問兩次：「照這句話畫會怎樣？」和「隨便畫會怎樣？」，然後把差異放大，讓圖更貼近提示詞；放太大，圖就會比較單調。
-
-## 相關頁面
-- [[concepts/latent-diffusion|Latent Diffusion]]
-- [[sources/s6-cfg|S6 CFG 論文]]
-
-
----
-### wiki/comparisons/diffusion-vs-gan-vae.md
-
----
-title: 比較：擴散模型 vs GAN vs VAE
-type: comparison
-sources: [S2, S3, S4]
-updated: 2026-11-16
----
-
-# 擴散模型 vs GAN vs VAE
-
-| | GAN | VAE | 擴散模型 |
-|---|---|---|---|
-| 訓練方式 | 對抗式訓練（生成器 vs 判別器） | 用替代損失（surrogate loss） | 固定的加雜訊流程 + 學去雜訊 |
-| 常見問題 | 訓練可能不穩、多樣性較低 [S2] | 依賴替代損失 [S2] | 生成要很多步，慢 [S3] |
-| 生成速度 | 快（一次前向） | 快 | 慢，要很多步 [S2] |
-
-- 共同點：都是把簡單分布的雜訊轉換成資料樣本 [S3]。
-- 擴散模型的 latent 跟原始資料一樣大（高維度），這點跟 VAE 不同 [S2]。
-- DDPM 不用對抗式訓練就能做出高品質圖片 [S4]。
-
-## 相關頁面
-- [[overview|總覽]]
-- [[concepts/sampling-speed|取樣加速]]
-
-
----
-### wiki/timeline.md
-
----
-title: 發展時間軸
-type: overview
-sources: [S1, S2, S4, S5, S6, S7]
-updated: 2026-11-16
----
-
-# 發展時間軸
-
-| 時間 | 事件 | 來源 |
-|---|---|---|
-| 2015 | 擴散模型首次被提出（Sohl-Dickstein et al.） | [S7] |
-| 2019 | NCSN（Song & Ermon）：用不同程度的雜訊訓練 score network | [S2] |
-| 2020-06 | DDPM：CIFAR10 FID 3.17 | [S1] |
-| 2020-10 | DDIM：取樣快 10～50 倍 | [S4] |
-| 2021-12 | Latent Diffusion：在 latent space 做擴散 | [S5] |
-| 2022-07 | Classifier-Free Guidance 論文上 arXiv（之前已在 NeurIPS 2021 workshop 發表） | [S6][S2] |
-
-## 相關頁面
-- [[overview|總覽]]
-
-
----
-### wiki/index.md
-
----
-title: 擴散模型 LLM Wiki — 索引
-type: index
-updated: 2026-11-16
----
-
-# 擴散模型（Diffusion Model）LLM Wiki — 索引
-
-> 這是我用 Karpathy 的 LLM Wiki 架構整理的知識庫，主題是「擴散模型是怎麼生成圖片的？」。
-> AI 回答問題或做簡報前，**先讀這一頁**，再點進需要的頁面。每一句事實後面都標了來源編號 [S1]～[S8]。
-
-## 總覽
-- [[overview|總覽：擴散模型是怎麼生成圖片的？]]：一頁看懂整體流程（先讀這頁）
-- [[timeline|發展時間軸]]：2015 → 2022 的重要論文
-- [[glossary|名詞表]]：新手會卡住的名詞
-
-## 概念頁（concepts）
-- [[concepts/forward-process|前向過程]]：一步一步加雜訊，T = 1000
-- [[concepts/reverse-process|反向過程]]：從雜訊一步一步還原
-- [[concepts/noise-schedule|雜訊排程]]：β 從 0.0001 到 0.02
-- [[concepts/training-objective|訓練目標]]：預測雜訊 + MSE
-- [[concepts/unet-backbone|U-Net 骨幹]]：負責去雜訊的網路
-- [[concepts/sampling-speed|取樣加速]]：為什麼慢、DDIM 等加速法
-- [[concepts/latent-diffusion|Latent Diffusion]]：Stable Diffusion 的基礎
-- [[concepts/text-conditioning|文字條件與 CFG]]：怎麼讓它照文字畫
-- [[concepts/stable-diffusion-pipeline|Stable Diffusion 的三個零件]]：VAE＋U-Net＋CLIP，512→64
-
-## 比較頁（comparisons）
-- [[comparisons/diffusion-vs-gan-vae|擴散模型 vs GAN vs VAE]]
-- [[comparisons/ddpm-vs-ddim|DDPM vs DDIM]]
-
-## 來源摘要（sources）
-- **S1**　[[sources/s1-ddpm|DDPM 論文（Ho et al., 2020）]]（論文）
-- **S2**　[[sources/s2-lilian-weng|Lilian Weng：What are Diffusion Models?]]（部落格）
-- **S3**　[[sources/s3-hf-annotated|Hugging Face：The Annotated Diffusion Model]]（部落格＋程式）
-- **S4**　[[sources/s4-ddim|DDIM 論文（Song et al., 2020）]]（論文）
-- **S5**　[[sources/s5-latent-diffusion|Latent Diffusion 論文（Rombach et al., 2022）]]（論文）
-- **S6**　[[sources/s6-cfg|Classifier-Free Guidance 論文]]（論文）
-- **S7**　[[sources/s7-wikipedia|Wikipedia：Diffusion model]]（百科）
-- **S8**　[[sources/s8-hf-stable-diffusion|Hugging Face：Stable Diffusion with Diffusers]]（部落格＋程式）
-
-## 維護紀錄
-- [[log|wiki 維護紀錄（log.md）]]：每次 ingest／query／lint 都記在這裡
-
-
----
-### wiki/concepts/stable-diffusion-pipeline.md
-
----
-title: Stable Diffusion 的三個零件
-type: concept
-sources: [S5, S8]
-updated: 2026-11-16
----
-
-# Stable Diffusion 的三個零件
-
-Stable Diffusion 是一種 text-to-image 的 latent diffusion model，由 CompVis、Stability AI 和 LAION 的研究人員做出來，用 512×512 的圖片訓練 [S8]。
-
-## 三個零件
-1. **Autoencoder（VAE）**：encoder 把圖片壓成 latent，decoder 再把 latent 還原成圖片 [S8]。
-2. **U-Net**：在 latent 上一步一步預測雜訊、去雜訊，並透過 cross-attention 讀文字 [S8]。
-3. **文字編碼器**：用現成訓練好的 CLIP 文字編碼器，不重新訓練 [S8]。
-
-## 數字感
-- VAE 的縮小倍率是 8：512×512 的圖會變成 64×64（4 個通道）的 latent [S8]。
-- 預設取樣 50 步；只用 15 步品質會明顯變差 [S8]。
-
-## 跟論文的關係
-Latent Diffusion 論文提出「在預訓練 autoencoder 的 latent space 做擴散」和「用 cross-attention 接文字」這兩個想法 [S5]，Stable Diffusion 就是照這個架構做出來的產品 [S8]。
-
-## 相關頁面
-- [[concepts/latent-diffusion|Latent Diffusion]]
-- [[concepts/text-conditioning|文字條件與 CFG]]
-- [[sources/s8-hf-stable-diffusion|S8 HF Stable Diffusion 部落格]]

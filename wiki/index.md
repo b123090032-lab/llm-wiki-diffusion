@@ -15,6 +15,7 @@ updated: 2026-11-16
 - [[glossary|名詞表]]：新手會卡住的名詞
 
 ## 概念頁（concepts）
+- [[concepts/plain-language|白話版：給完全新手的擴散模型]]：不用數學，簡報就是照這頁做的（先讀這頁）
 - [[concepts/forward-process|前向過程]]：一步一步加雜訊，T = 1000
 - [[concepts/reverse-process|反向過程]]：從雜訊一步一步還原
 - [[concepts/noise-schedule|雜訊排程]]：β 從 0.0001 到 0.02

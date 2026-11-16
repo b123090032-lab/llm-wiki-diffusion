@@ -29,6 +29,7 @@ updated: 2026-11-16
 生成時要跑很多步，所以很慢 [S3]。→ [[concepts/sampling-speed|取樣加速]]
 
 ## 延伸閱讀
+- [[concepts/plain-language|白話版（給完全新手）]]
 - [[concepts/noise-schedule|雜訊排程]]
 - [[comparisons/ddpm-vs-ddim|DDPM vs DDIM]]
 - [[timeline|發展時間軸]]
