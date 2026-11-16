@@ -1,0 +1,8 @@
+wiki：21 頁，7 個來源
+⚠️  concepts/training-objective.md 這行沒有來源：2. 隨機挑一個步數 t，再抽一個真的高斯雜訊 ε。…
+⚠️  concepts/training-objective.md 這行沒有來源：4. 讓網路看 x_t 和 t，**預測加進去的雜訊**。…
+❌ [退回：整理 Wiki] index.md 連到不存在的頁面 [[log]]
+❌ [退回：整理 Wiki] overview.md frontmatter sources=['S1', 'S2', 'S3', 'S7'] 跟內文實際引用 ['S1', 'S2', 'S3', 'S4', 'S7'] 不一致
+❌ [退回：整理 Wiki] glossary.md frontmatter sources=['S2', 'S3', 'S5', 'S6', 'S7'] 跟內文實際引用 ['S2', 'S3', 'S4', 'S5', 'S6', 'S7'] 不一致
+❌ [退回：整理 Wiki] concepts/forward-process.md frontmatter sources=['S2', 'S3', 'S7'] 跟內文實際引用 ['S1', 'S2', 'S3', 'S7'] 不一致
+結果： 4 個錯誤

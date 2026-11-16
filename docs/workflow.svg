@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1010 640" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8z" fill="#334e68"/></marker><marker id="rr" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8z" fill="#c0392b"/></marker></defs>
+<rect width="1010" height="640" fill="#fbfaf7"/>
+<text x="30" y="30" font-size="17" font-weight="bold" fill="#1f2a44">LLM Wiki → 教學簡報 的工作流程（graph）</text>
+<path d="M150.0,114 V160" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M150.0,224 V270" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M490.0,114 V160" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M490.0,224 V270" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M490.0,334 V380" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M830.0,114 V160" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M830.0,224 V270" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M830.0,334 V380" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M270,302.0 H320 V82.0 H370" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<text x="326" y="150" font-size="12" fill="#334e68">通過</text>
+<path d="M610,412.0 H660 V82.0 H710" fill="none" stroke="#334e68" stroke-width="2" marker-end="url(#ar)"/>
+<text x="666" y="150" font-size="12" fill="#334e68">通過</text>
+<path d="M270,290 C300,290 300,204 270,204" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/>
+<text x="250" y="252" font-size="12" fill="#c0392b">格式錯</text>
+<path d="M610,200 C640,200 640,94 610,94" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/>
+<text x="590" y="134" font-size="12" fill="#c0392b">不滿意</text>
+<path d="M370,400 C335,400 335,314 370,314" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/>
+<text x="190" y="372" font-size="12" fill="#c0392b">原文對不上：loop，最多 3 輪</text>
+<path d="M490.0,444 V475 H12 V82.0 H30" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/>
+<text x="40" y="468" font-size="12" fill="#c0392b">wiki 沒有這個事實 → 回 ① 補來源（不能自己編）</text>
+<path d="M710,302.0 H610" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/>
+<text x="616" y="296" font-size="12" fill="#c0392b">講過頭</text>
+<path d="M950,200 C985,200 985,94 950,94" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/>
+<text x="958" y="134" font-size="12" fill="#c0392b">格式</text>
+<path d="M950,420 C1005,420 1005,70 950,70" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/>
+<text x="940" y="350" font-size="12" fill="#c0392b">404</text>
+<rect x="30" y="50" width="240" height="64" rx="12" fill="#fff7d6" stroke="#d4a017" stroke-width="2"/>
+<text x="150.0" y="77" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">① 取得資料</text>
+<text x="150.0" y="99" font-size="12" text-anchor="middle" fill="#52606d">raw/，≥5 個來源</text>
+<rect x="30" y="160" width="240" height="64" rx="12" fill="#fff7d6" stroke="#d4a017" stroke-width="2"/>
+<text x="150.0" y="187" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">② 整理 Wiki</text>
+<text x="150.0" y="209" font-size="12" text-anchor="middle" fill="#52606d">ingest → sources / concepts / index</text>
+<rect x="30" y="270" width="240" height="64" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="150.0" y="297" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">③ Wiki 檢查</text>
+<text x="150.0" y="319" font-size="12" text-anchor="middle" fill="#52606d">check.py wiki</text>
+<rect x="370" y="50" width="240" height="64" rx="12" fill="#fff7d6" stroke="#d4a017" stroke-width="2"/>
+<text x="490.0" y="77" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">④ 寫大綱</text>
+<text x="490.0" y="99" font-size="12" text-anchor="middle" fill="#52606d">outline/outline.md</text>
+<rect x="370" y="160" width="240" height="64" rx="12" fill="#fde2e2" stroke="#c0392b" stroke-width="2"/>
+<text x="490.0" y="187" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑤ 人類確認大綱</text>
+<text x="490.0" y="209" font-size="12" text-anchor="middle" fill="#52606d">唯一的人工確認關卡</text>
+<rect x="370" y="270" width="240" height="64" rx="12" fill="#fff7d6" stroke="#d4a017" stroke-width="2"/>
+<text x="490.0" y="297" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑥ 逐頁內容（查詢 Wiki）</text>
+<text x="490.0" y="319" font-size="12" text-anchor="middle" fill="#52606d">outline/pages.md</text>
+<rect x="370" y="380" width="240" height="64" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="490.0" y="407" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑦ 逐頁檢查【提前】</text>
+<text x="490.0" y="429" font-size="12" text-anchor="middle" fill="#52606d">check.py pages</text>
+<rect x="710" y="50" width="240" height="64" rx="12" fill="#fff7d6" stroke="#d4a017" stroke-width="2"/>
+<text x="830.0" y="77" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑧ 產生簡報</text>
+<text x="830.0" y="99" font-size="12" text-anchor="middle" fill="#52606d">make_slides.py ＋ style.md</text>
+<rect x="710" y="160" width="240" height="64" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="830.0" y="187" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑨ 簡報檢查</text>
+<text x="830.0" y="209" font-size="12" text-anchor="middle" fill="#52606d">check.py slides / links</text>
+<rect x="710" y="270" width="240" height="64" rx="12" fill="#fde2e2" stroke="#c0392b" stroke-width="2"/>
+<text x="830.0" y="297" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑩ 人工抽查重點</text>
+<text x="830.0" y="319" font-size="12" text-anchor="middle" fill="#52606d">重點 ↔ wiki 原文對照表</text>
+<rect x="710" y="380" width="240" height="64" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="830.0" y="407" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑪ 發布＋線上檢查</text>
+<text x="830.0" y="429" font-size="12" text-anchor="middle" fill="#52606d">git push → Pages → curl 200</text>
+<rect x="30" y="510" width="22" height="16" rx="4" fill="#fff7d6" stroke="#d4a017"/><text x="58" y="523" font-size="13">工作關卡</text>
+<rect x="190" y="510" width="22" height="16" rx="4" fill="#dbeafe" stroke="#2563eb"/><text x="218" y="523" font-size="13">自動檢查關卡</text>
+<rect x="350" y="510" width="22" height="16" rx="4" fill="#fde2e2" stroke="#c0392b"/><text x="378" y="523" font-size="13">人工關卡</text>
+<path d="M520,518 H560" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#rr)"/><text x="568" y="523" font-size="13">檢查失敗時退回</text>
+<text x="30" y="558" font-size="13" fill="#1f2a44">重複的部分：⑥⇄⑦ 是 loop（每一輪只修檢查報告列出的問題，最多 3 輪，還不過就停下來問人）。</text>
+<text x="30" y="580" font-size="13" fill="#1f2a44">⑦ 可以直接跳回 ①，⑩ 跳回 ⑥，⑪ 跳回 ⑧ —— 退回的地方不只上一關，所以整體是 graph，不是單純的圈。</text>
+<text x="30" y="602" font-size="13" fill="#1f2a44">⑦ 是這次執行後才「提前」加進來的檢查：原本只在 ⑨ 檢查成品，但錯誤全都來自 ⑥。</text>
+</svg>

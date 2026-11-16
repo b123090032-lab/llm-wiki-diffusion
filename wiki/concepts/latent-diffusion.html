@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latent Diffusion：Stable Diffusion 背後的關鍵</title>
+<style>
+body{font-family:system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;max-width:820px;margin:0 auto;padding:24px 18px 60px;line-height:1.75;color:#1f2933;background:#fbfaf7}
+header{font-size:14px;margin-bottom:18px;color:#52606d} header a{margin-right:12px}
+h1{font-size:1.7em;border-bottom:3px solid #f2c94c;padding-bottom:6px} h2{margin-top:1.6em;color:#334e68}
+a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+a.wikilink{background:#eef4ff;padding:0 4px;border-radius:4px} a.cite{font-size:.8em;color:#b45309;vertical-align:super}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.95em;display:block;overflow-x:auto} th,td{border:1px solid #d9e2ec;padding:6px 10px;text-align:left} th{background:#f0f4f8}
+blockquote{border-left:4px solid #f2c94c;margin:12px 0;padding:6px 14px;background:#fffbea;color:#52606d}
+code{background:#f0f4f8;padding:1px 5px;border-radius:4px} pre{background:#f0f4f8;padding:12px;overflow-x:auto;border-radius:8px;font-size:.88em} pre code{padding:0} .meta{font-size:13px;color:#829ab1}
+</style></head><body>
+<header><a href="../index.html">🏠 Wiki 索引</a><a href="../../index.html">專案首頁</a><a href="../../slides/index.html">📽 教學簡報</a></header>
+<main>
+<h1>Latent Diffusion（LDM）</h1>
+<h2>遇到的問題</h2>
+<p>直接在像素上做擴散非常貴：訓練強的擴散模型常常要花上百個 GPU 天，生成時也要一步一步算 <a class="cite" href="../sources/s5-latent-diffusion.html">[S5]</a>。</p>
+<h2>解法：先壓縮，再擴散</h2>
+<ol><li>用一個<strong>預訓練好的 autoencoder</strong>，把圖片壓縮成比較小的 latent <a class="cite" href="../sources/s5-latent-diffusion.html">[S5]</a>。</li><li>擴散和去雜訊都在 latent 上做，訓練成本更低、生成更快 <a class="cite" href="../sources/s2-lilian-weng.html">[S2]</a>。</li><li>最後再用 decoder 把 latent 還原成圖片 <a class="cite" href="../sources/s2-lilian-weng.html">[S2]</a>。</li></ol>
+<p>以 Stable Diffusion 為例：VAE 縮小倍率是 8，512×512 的圖會變成 64×64 的 latent <a class="cite" href="../sources/s8-hf-stable-diffusion.html">[S8]</a>。</p>
+<p>背後的想法：圖片大部分的資料量都花在人眼感受的細節上，就算大幅壓縮，語意和構圖還是保留得住 <a class="cite" href="../sources/s2-lilian-weng.html">[S2]</a>。</p>
+<h2>文字怎麼進來</h2>
+<p>在 U-Net 裡加 <strong>cross-attention</strong>，就能用文字、bounding box 等當條件來生成 <a class="cite" href="../sources/s5-latent-diffusion.html">[S5]</a>。→ <a class="wikilink" href="text-conditioning.html">文字條件與 CFG</a></p>
+<h2>跟 Stable Diffusion 的關係</h2>
+<p>Stable Diffusion 這類商業產品，就是把擴散模型和文字編碼器、cross-attention 模組結合起來 <a class="cite" href="../sources/s7-wikipedia.html">[S7]</a>。</p>
+<h2>相關頁面</h2>
+<ul><li><a class="wikilink" href="unet-backbone.html">U-Net 骨幹</a></li><li><a class="wikilink" href="stable-diffusion-pipeline.html">Stable Diffusion 的三個零件</a></li><li><a class="wikilink" href="../sources/s5-latent-diffusion.html">S5 Latent Diffusion 論文</a></li></ul>
+</main>
+<p class="meta">原始 Markdown：<a href="https://github.com/b123090032-lab/llm-wiki-diffusion/blob/main/wiki/concepts/latent-diffusion.md">wiki/concepts/latent-diffusion.md</a>｜更新：2026-11-16</p>
+</body></html>

@@ -1,0 +1,46 @@
+wiki：24 頁，8 個來源
+slides：15 頁，52 個重點已比對
+links：33 個 HTML、350 個本地連結
+❌ [退回：產生簡報] slides/index.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/glossary.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/index.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/overview.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/timeline.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/log.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/log.html 的連結 ../log/run-2026-11-16.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s6-cfg.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s6-cfg.html 的連結 ../raw/06-classifier-free-guidance.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s4-ddim.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s4-ddim.html 的連結 ../raw/04-ddim-paper.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s2-lilian-weng.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s2-lilian-weng.html 的連結 ../raw/02-lilian-weng-blog.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s7-wikipedia.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s7-wikipedia.html 的連結 ../raw/07-wikipedia-diffusion-model.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s3-hf-annotated.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s3-hf-annotated.html 的連結 ../raw/03-hf-annotated-diffusion.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s8-hf-stable-diffusion.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s8-hf-stable-diffusion.html 的連結 ../raw/08-hf-stable-diffusion-blog.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s5-latent-diffusion.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s5-latent-diffusion.html 的連結 ../raw/05-latent-diffusion-paper.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s1-ddpm.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/sources/s1-ddpm.html 的連結 ../raw/01-ddpm-paper.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/reverse-process.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/noise-schedule.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/unet-backbone.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/latent-diffusion.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/sampling-speed.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/text-conditioning.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/forward-process.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/training-objective.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/concepts/stable-diffusion-pipeline.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/comparisons/diffusion-vs-gan-vae.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] wiki/comparisons/ddpm-vs-ddim.html 的連結 ../../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/05-latent-diffusion-paper.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/03-hf-annotated-diffusion.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/07-wikipedia-diffusion-model.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/06-classifier-free-guidance.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/08-hf-stable-diffusion-blog.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/04-ddim-paper.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/01-ddpm-paper.html 的連結 ../index.html 指到不存在的檔案
+❌ [退回：產生簡報] raw/02-lilian-weng-blog.html 的連結 ../index.html 指到不存在的檔案
+結果： 42 個錯誤

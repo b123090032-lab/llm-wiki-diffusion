@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簡報大綱（人類確認關卡）</title>
+<style>
+body{font-family:system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;max-width:820px;margin:0 auto;padding:24px 18px 60px;line-height:1.75;color:#1f2933;background:#fbfaf7}
+header{font-size:14px;margin-bottom:18px;color:#52606d} header a{margin-right:12px}
+h1{font-size:1.7em;border-bottom:3px solid #f2c94c;padding-bottom:6px} h2{margin-top:1.6em;color:#334e68}
+a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+a.wikilink{background:#eef4ff;padding:0 4px;border-radius:4px} a.cite{font-size:.8em;color:#b45309;vertical-align:super}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.95em;display:block;overflow-x:auto} th,td{border:1px solid #d9e2ec;padding:6px 10px;text-align:left} th{background:#f0f4f8}
+blockquote{border-left:4px solid #f2c94c;margin:12px 0;padding:6px 14px;background:#fffbea;color:#52606d}
+code{background:#f0f4f8;padding:1px 5px;border-radius:4px} pre{background:#f0f4f8;padding:12px;overflow-x:auto;border-radius:8px;font-size:.88em} pre code{padding:0} .meta{font-size:13px;color:#829ab1}
+</style></head><body>
+<header><a href="../wiki/index.html">🏠 Wiki 索引</a><a href="../index.html">專案首頁</a><a href="../slides/index.html">📽 教學簡報</a></header>
+<main>
+<h1>簡報大綱（人類確認關卡）</h1>
+<ul><li>主題：擴散模型（Diffusion Model）是怎麼生成圖片的？</li><li>對象：沒學過生成模型的新手（例如剛修這門課的同學、高中生）</li><li>目標：看完 15 頁，能用自己的話講出「加雜訊 → 學去雜訊 → 從雜訊生成」，並知道 Stable Diffusion 多做了哪兩件事（latent、文字條件）。</li><li>長度：約 10 分鐘，15 頁</li><li>規則：<strong>只能用 wiki/ 的內容</strong>；每頁標出用到哪幾頁 wiki；數字一定要有出處。</li></ul>
+<table><thead><tr><th>頁</th><th>標題</th><th>要講的重點</th><th>用到的 wiki 頁</th></tr></thead><tbody><tr><td>1</td><td>封面</td><td>主題、一句話原理</td><td>overview</td></tr><tr><td>2</td><td>一句話原理</td><td>先學擦雜訊，再從雜訊擦出圖</td><td>overview</td></tr><tr><td>3</td><td>兩個過程</td><td>前向（加雜訊、固定）／反向（去雜訊、要學）</td><td>overview</td></tr><tr><td>4</td><td>前向過程</td><td>每步加一點高斯雜訊、T = 1000、可直接跳到第 t 步</td><td>concepts/forward-process</td></tr><tr><td>5</td><td>雜訊排程</td><td>β 從 0.0001 線性增加到 0.02</td><td>concepts/noise-schedule</td></tr><tr><td>6</td><td>反向過程</td><td>從純雜訊開始一步步去雜訊；為什麼要分很多步</td><td>concepts/reverse-process</td></tr><tr><td>7</td><td>訓練在學什麼</td><td>預測加進去的雜訊、MSE、簡化損失</td><td>concepts/training-objective</td></tr><tr><td>8</td><td>U-Net 骨幹</td><td>先縮小再放大、residual、attention、time embedding</td><td>concepts/unet-backbone</td></tr><tr><td>9</td><td>為什麼慢？怎麼變快？</td><td>20 小時 vs 1 分鐘；DDIM 快 10～50 倍</td><td>concepts/sampling-speed, comparisons/ddpm-vs-ddim</td></tr><tr><td>10</td><td>Latent Diffusion</td><td>先壓縮再擴散，Stable Diffusion 的基礎</td><td>concepts/latent-diffusion</td></tr><tr><td>11</td><td>照著文字畫</td><td>cross-attention、CFG 的品質／多樣性取捨</td><td>concepts/text-conditioning</td></tr><tr><td>12</td><td>跟 GAN、VAE 比</td><td>訓練穩定度、速度</td><td>comparisons/diffusion-vs-gan-vae</td></tr><tr><td>13</td><td>時間軸</td><td>2015 → 2022</td><td>timeline</td></tr><tr><td>14</td><td>小測驗</td><td>3 題</td><td>overview, concepts/training-objective, concepts/text-conditioning</td></tr><tr><td>15</td><td>總結＋延伸閱讀</td><td>三句話總結、去哪裡看更多</td><td>index</td></tr></tbody></table>
+<h2>確認紀錄</h2>
+<ul><li>2026-11-16：大綱定案為 15 頁，之後才開始寫逐頁內容（outline/pages.md）。</li></ul>
+</main>
+<p class="meta">原始 Markdown：<a href="https://github.com/b123090032-lab/llm-wiki-diffusion/blob/main/outline/outline.md">outline/outline.md</a>｜更新：</p>
+</body></html>
