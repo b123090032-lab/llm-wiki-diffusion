@@ -54,10 +54,10 @@
 <text x="830.0" y="99" font-size="12" text-anchor="middle" fill="#52606d">make_slides.py ＋ style.md</text>
 <rect x="710" y="160" width="240" height="64" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
 <text x="830.0" y="187" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑨ 簡報檢查</text>
-<text x="830.0" y="209" font-size="12" text-anchor="middle" fill="#52606d">check.py slides / links</text>
+<text x="830.0" y="209" font-size="12" text-anchor="middle" fill="#52606d">check.py slides / render / links</text>
 <rect x="710" y="270" width="240" height="64" rx="12" fill="#fde2e2" stroke="#c0392b" stroke-width="2"/>
-<text x="830.0" y="297" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑩ 人工抽查重點</text>
-<text x="830.0" y="319" font-size="12" text-anchor="middle" fill="#52606d">重點 ↔ wiki 原文對照表</text>
+<text x="830.0" y="297" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑩ 審查＋人工抽查</text>
+<text x="830.0" y="319" font-size="12" text-anchor="middle" fill="#52606d">審查包（新對話）＋對照表</text>
 <rect x="710" y="380" width="240" height="64" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
 <text x="830.0" y="407" font-size="16" text-anchor="middle" font-weight="bold" fill="#1f2a44">⑪ 發布＋線上檢查</text>
 <text x="830.0" y="429" font-size="12" text-anchor="middle" fill="#52606d">git push → Pages → curl 200</text>

@@ -1,7 +1,7 @@
 # AGENTS.md — 擴散模型 LLM Wiki ＋ 教學簡報 工作手冊
 
 > 給 AI agent（Antigravity / Gemini、Claude Code、Codex…）看的規則。**每次開新對話，先讀完這份再動手。**
-> `CLAUDE.md` 和 `GEMINI.md` 只寫一句「請讀 AGENTS.md」，規則只維護這一份。
+> `CLAUDE.md` 只有一行 `@AGENTS.md`；`GEMINI.md` 只寫「請讀 AGENTS.md」（GEMINI.md 優先序比 AGENTS.md 高，所以裡面不放任何規則，避免兩份打架）。規則只維護這一份，保持在 12,000 字元以內，簡報流程的細節放在 `.agents/workflows/topic-slides.md`。
 
 ## 1. 專案目的
 1. 用 Karpathy 的 LLM Wiki 架構，整理一個主題知識庫：**擴散模型（Diffusion Model）是怎麼生成圖片的？**
@@ -34,6 +34,7 @@ index.html        專案首頁（連到 wiki 和簡報）
 - 頁面之間用 Obsidian 雙向連結：`[[concepts/forward-process|前向過程]]`。每頁最後有「相關頁面」。
 - 表格裡不要用 `[[頁面|文字]]`（直線會切壞表格），要用連結就改成清單。
 - 新頁面一定要加進 `wiki/index.md`，而且至少要有一頁連過來（不能有孤兒頁）。
+- 來源互相矛盾時：兩種說法都寫、各自標來源，加上「⚠️ 說法不一致」，不要自己選邊。
 - 比喻、白話說明可以不標來源，但**不能夾帶新的事實或數字**。
 - 不要把 API key、密碼、個資放進專案（會公開在 GitHub 上）。
 
@@ -45,7 +46,8 @@ index.html        專案首頁（連到 wiki 和簡報）
 4. 更新 `wiki/index.md`，在 `wiki/log.md` 加一筆 `## [日期] ingest | 標題`。
 5. 跑 `python3 tools/check.py wiki`，通過才算完成；再跑 `python3 tools/build_wiki.py` 產生網頁。
 
-### B. 用 wiki 做簡報（query）
+### B. 用 wiki 做簡報（query）——也可以直接輸入 `/topic-slides`（見 .agents/workflows/topic-slides.md）
+0. 先從 wiki/index.md 找出跟主題相關的頁面，**少於 3 頁就停下來**，回 A 補資料，不要用自己的知識硬湊。
 1. **寫大綱** `outline/outline.md`：對象、目標、頁數，每頁一行「標題｜重點｜用到的 wiki 頁」。
 2. **停下來給人確認大綱**（唯一的人工關卡）。不滿意就改大綱，不要往下做。
 3. **寫逐頁內容** `outline/pages.md`：只能用 wiki 的內容。格式：
@@ -61,8 +63,8 @@ index.html        專案首頁（連到 wiki 和簡報）
    - 「wiki 沒有這個事實」→ **回 A. 新增來源**，不准自己編。
    - 「沒標出處的數字」→ 補出處或刪掉。
 5. **產生簡報** `python3 tools/make_slides.py`（照 `slides/style.md`，不要手改 slides/index.html）。
-6. **跑簡報檢查** `python3 tools/check.py all`（wiki＋pages＋slides＋links 全部要通過）。
-7. **人工抽查**：看「重點 ↔ 原文」對照表，確認原文真的支持那句話（程式只能檢查原文存在）。
+6. **跑簡報檢查** `python3 tools/check.py all`（wiki＋pages＋slides＋render＋links 全部要通過；render 會用 headless Chrome 在桌機 1280×720、手機 390×844 檢查每頁有沒有溢出；簡報要 8–15 頁、8 個來源都要被用到）。
+7. **審查**：`python3 tools/review_packet.py` 產生 `log/review/packet.md`，開一個**新的對話**只貼這份審查包，請 AI 檢查忠實度和覆蓋率（不要叫寫簡報的對話審自己的作品）；再看「重點 ↔ 原文」對照表人工抽查。講反或講過頭 → 只回去改那一頁。
 8. 在 `log/run-日期.md` 記下這次每個節點發生什麼事、哪裡失敗、怎麼修，原始輸出存到 `log/check-outputs/`。
 
 ### C. 發布
@@ -74,7 +76,7 @@ index.html        專案首頁（連到 wiki 和簡報）
 ## 5. 怎樣才算完成
 - [ ] `python3 tools/check.py all` 顯示「通過 ✅」
 - [ ] raw/ 至少 5 個來源，都有網址
-- [ ] 簡報每一頁頁尾都有「📚 Wiki 出處」連結
+- [ ] 簡報 8–15 頁，每一頁頁尾都有「📚 Wiki 出處」連結，桌機和手機都沒有溢出
 - [ ] `log/run-*.md` 有這次的執行紀錄（含失敗和修正）
 - [ ] 線上網址都能打開
 

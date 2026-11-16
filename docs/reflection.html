@@ -29,7 +29,9 @@ code{background:#f0f4f8;padding:1px 5px;border-radius:4px} pre{background:#f0f4f
 <h2>4. 發布後才發現的問題</h2>
 <p>發布後 46 個網址 curl 全部 200、自動檢查全部通過，但我打開 wiki 索引的截圖一看，「來源摘要」表格整個跑版：表格裡的 <code>[[頁面|文字]]</code> 的直線被當成表格分隔線。這提醒我「HTTP 200」和「檢查通過」不等於「看起來是對的」，所以在 ⑪ 線上檢查裡加了「實際看畫面」，也把這個錯誤變成 <code>check.py wiki</code> 的一條新規則，以後在 ③ 就會被擋下來——又是一次把檢查往前移。</p>
 <p>修這個問題的時候還出了一個小意外：我把檢查和 <code>git push</code> 串在同一行，但中間用了 <code>| tee</code> 存輸出，檢查失敗的錯誤碼被吃掉，壞掉的版本還是被 push 上去了。所以現在規定：檢查的結束碼是 0 才可以 commit。「有檢查」不夠，<strong>檢查的結果要真的能擋住下一步</strong>。</p>
-<h2>5. 學到什麼</h2>
+<h2>5. 對照講義後補上的</h2>
+<p>補拿到講義後我逐頁對照，發現自己的 loop 規格少了兩個講義明講的完成標準：「8–15 頁」和「渲染後沒有溢出」，所以加了用 headless Chrome 實際渲染、量每頁有沒有溢出的檢查。另外講義強調「不要叫它審自己的作品」，AI 審查要開新對話、只給成品和來源，所以我做了審查包，讓審查在新對話裡進行，而不是讓寫簡報的同一個對話自己說沒問題。</p>
+<h2>6. 學到什麼</h2>
 <ul><li>「每句話都要有出處」只靠提醒 AI 是不夠的，要有<strong>程式真的去比對</strong>才會落實。</li><li>但程式比對也有盲點（只能確認存在、不能確認意思），所以人工檢查要放在程式做不到的地方。</li><li>Karpathy 的 LLM Wiki 很強調 wiki 會越長越大。這次因為簡報缺資料而補了 S8，wiki 就多了一頁「Stable Diffusion 的三個零件」，這正好是「查詢的結果回頭讓 wiki 變好」的例子。</li></ul>
 </main>
 <p class="meta">原始 Markdown：<a href="https://github.com/b123090032-lab/llm-wiki-diffusion/blob/main/docs/reflection.md">docs/reflection.md</a>｜更新：2026-11-16</p>

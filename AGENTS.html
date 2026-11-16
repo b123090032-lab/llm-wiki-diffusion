@@ -15,7 +15,7 @@ code{background:#f0f4f8;padding:1px 5px;border-radius:4px} pre{background:#f0f4f
 <header><a href="wiki/index.html">🏠 Wiki 索引</a><a href="index.html">專案首頁</a><a href="slides/index.html">📽 教學簡報</a></header>
 <main>
 <h1>AGENTS.md — 擴散模型 LLM Wiki ＋ 教學簡報 工作手冊</h1>
-<blockquote>給 AI agent（Antigravity / Gemini、Claude Code、Codex…）看的規則。<strong>每次開新對話，先讀完這份再動手。</strong><br><code>CLAUDE.md</code> 和 <code>GEMINI.md</code> 只寫一句「請讀 AGENTS.md」，規則只維護這一份。</blockquote>
+<blockquote>給 AI agent（Antigravity / Gemini、Claude Code、Codex…）看的規則。<strong>每次開新對話，先讀完這份再動手。</strong><br><code>CLAUDE.md</code> 只有一行 <code>@AGENTS.md</code>；<code>GEMINI.md</code> 只寫「請讀 AGENTS.md」（GEMINI.md 優先序比 AGENTS.md 高，所以裡面不放任何規則，避免兩份打架）。規則只維護這一份，保持在 12,000 字元以內，簡報流程的細節放在 <code>.agents/workflows/topic-slides.md</code>。</blockquote>
 <h2>1. 專案目的</h2>
 <ol><li>用 Karpathy 的 LLM Wiki 架構，整理一個主題知識庫：<strong>擴散模型（Diffusion Model）是怎麼生成圖片的？</strong></li><li>用這個 wiki 當<strong>唯一的知識來源</strong>，產生一份教新手的 HTML 教學簡報。</li><li>簡報裡每個重點都要追得到 wiki 頁，wiki 每句事實都要追得到 raw 來源。</li></ol>
 <h2>2. 資料夾結構</h2>
@@ -34,20 +34,20 @@ log/              run-YYYY-MM-DD.md 執行紀錄、check-outputs/ 每次檢查�
 tools/            build_wiki.py、make_slides.py、check.py
 index.html        專案首頁（連到 wiki 和簡報）</code></pre>
 <h2>3. 寫作規則</h2>
-<ul><li>內文用<strong>繁體中文</strong>，專有名詞保留英文（DDPM、U-Net、latent、CFG）。</li><li>檔名用英文小寫加連字號（<code>noise-schedule.md</code>）；來源頁用 <code>s編號-簡稱.md</code>。</li><li>每頁開頭有 frontmatter：<code>title</code>、<code>type</code>（concept / comparison / source / overview / glossary / index / log）、<code>sources</code>、<code>updated</code>。</li><li><strong>每一句事實後面標來源</strong> <code>[S1]</code>～<code>[S8]</code>；frontmatter 的 <code>sources</code> 要跟內文實際用到的一致。</li><li>頁面之間用 Obsidian 雙向連結：<code>[[concepts/forward-process|前向過程]]</code>。每頁最後有「相關頁面」。</li><li>表格裡不要用 <code>[[頁面|文字]]</code>（直線會切壞表格），要用連結就改成清單。</li><li>新頁面一定要加進 <code>wiki/index.md</code>，而且至少要有一頁連過來（不能有孤兒頁）。</li><li>比喻、白話說明可以不標來源，但<strong>不能夾帶新的事實或數字</strong>。</li><li>不要把 API key、密碼、個資放進專案（會公開在 GitHub 上）。</li></ul>
+<ul><li>內文用<strong>繁體中文</strong>，專有名詞保留英文（DDPM、U-Net、latent、CFG）。</li><li>檔名用英文小寫加連字號（<code>noise-schedule.md</code>）；來源頁用 <code>s編號-簡稱.md</code>。</li><li>每頁開頭有 frontmatter：<code>title</code>、<code>type</code>（concept / comparison / source / overview / glossary / index / log）、<code>sources</code>、<code>updated</code>。</li><li><strong>每一句事實後面標來源</strong> <code>[S1]</code>～<code>[S8]</code>；frontmatter 的 <code>sources</code> 要跟內文實際用到的一致。</li><li>頁面之間用 Obsidian 雙向連結：<code>[[concepts/forward-process|前向過程]]</code>。每頁最後有「相關頁面」。</li><li>表格裡不要用 <code>[[頁面|文字]]</code>（直線會切壞表格），要用連結就改成清單。</li><li>新頁面一定要加進 <code>wiki/index.md</code>，而且至少要有一頁連過來（不能有孤兒頁）。</li><li>來源互相矛盾時：兩種說法都寫、各自標來源，加上「⚠️ 說法不一致」，不要自己選邊。</li><li>比喻、白話說明可以不標來源，但<strong>不能夾帶新的事實或數字</strong>。</li><li>不要把 API key、密碼、個資放進專案（會公開在 GitHub 上）。</li></ul>
 <h2>4. 工作流程（詳見 docs/workflow.md 的圖）</h2>
 <h3>A. 新增一個來源（ingest）</h3>
 <ol><li>把來源存成 <code>raw/0N-簡稱.md</code>：id、title、authors、published、url、retrieved、英文原文摘錄（<code>&gt; "..."</code>，數學式用 <code>...</code> 省略）、中文筆記。</li><li>寫 <code>wiki/sources/sN-簡稱.md</code> 摘要，列出「這篇更新了哪些頁面」。</li><li>更新相關的 concepts / comparisons / overview / timeline / glossary，必要時開新概念頁。</li><li>更新 <code>wiki/index.md</code>，在 <code>wiki/log.md</code> 加一筆 <code>## [日期] ingest | 標題</code>。</li><li>跑 <code>python3 tools/check.py wiki</code>，通過才算完成；再跑 <code>python3 tools/build_wiki.py</code> 產生網頁。</li></ol>
-<h3>B. 用 wiki 做簡報（query）</h3>
-<ol><li><strong>寫大綱</strong> <code>outline/outline.md</code>：對象、目標、頁數，每頁一行「標題｜重點｜用到的 wiki 頁」。</li><li><strong>停下來給人確認大綱</strong>（唯一的人工關卡）。不滿意就改大綱，不要往下做。</li><li><strong>寫逐頁內容</strong> <code>outline/pages.md</code>：只能用 wiki 的內容。格式：</li></ol>
+<h3>B. 用 wiki 做簡報（query）——也可以直接輸入 <code>/topic-slides</code>（見 .agents/workflows/topic-slides.md）</h3>
+<ol><li>先從 wiki/index.md 找出跟主題相關的頁面，<strong>少於 3 頁就停下來</strong>，回 A 補資料，不要用自己的知識硬湊。</li><li><strong>寫大綱</strong> <code>outline/outline.md</code>：對象、目標、頁數，每頁一行「標題｜重點｜用到的 wiki 頁」。</li><li><strong>停下來給人確認大綱</strong>（唯一的人工關卡）。不滿意就改大綱，不要往下做。</li><li><strong>寫逐頁內容</strong> <code>outline/pages.md</code>：只能用 wiki 的內容。格式：</li></ol>
 <p>   ```    ## 4 | 標題    wiki: concepts/forward-process    visual: noise-strip</p>
 <ul><li>{{顯示文字||wiki頁||從那頁 wiki 複製的原文片段}}</li></ul>
 <p>   ~ 跟主題無關的說明（例如簡報長度），不算事實    ```</p>
-<ol><li><strong>跑提前檢查</strong> <code>python3 tools/check.py pages</code>。</li><li>「找不到原文」→ 回第 3 步修那一句（每輪只修報告列出的問題，<strong>最多 3 輪</strong>，還不過就停下來問人）。</li><li>「wiki 沒有這個事實」→ <strong>回 A. 新增來源</strong>，不准自己編。</li><li>「沒標出處的數字」→ 補出處或刪掉。</li><li><strong>產生簡報</strong> <code>python3 tools/make_slides.py</code>（照 <code>slides/style.md</code>，不要手改 slides/index.html）。</li><li><strong>跑簡報檢查</strong> <code>python3 tools/check.py all</code>（wiki＋pages＋slides＋links 全部要通過）。</li><li><strong>人工抽查</strong>：看「重點 ↔ 原文」對照表，確認原文真的支持那句話（程式只能檢查原文存在）。</li><li>在 <code>log/run-日期.md</code> 記下這次每個節點發生什麼事、哪裡失敗、怎麼修，原始輸出存到 <code>log/check-outputs/</code>。</li></ol>
+<ol><li><strong>跑提前檢查</strong> <code>python3 tools/check.py pages</code>。</li><li>「找不到原文」→ 回第 3 步修那一句（每輪只修報告列出的問題，<strong>最多 3 輪</strong>，還不過就停下來問人）。</li><li>「wiki 沒有這個事實」→ <strong>回 A. 新增來源</strong>，不准自己編。</li><li>「沒標出處的數字」→ 補出處或刪掉。</li><li><strong>產生簡報</strong> <code>python3 tools/make_slides.py</code>（照 <code>slides/style.md</code>，不要手改 slides/index.html）。</li><li><strong>跑簡報檢查</strong> <code>python3 tools/check.py all</code>（wiki＋pages＋slides＋render＋links 全部要通過；render 會用 headless Chrome 在桌機 1280×720、手機 390×844 檢查每頁有沒有溢出；簡報要 8–15 頁、8 個來源都要被用到）。</li><li><strong>審查</strong>：<code>python3 tools/review_packet.py</code> 產生 <code>log/review/packet.md</code>，開一個<strong>新的對話</strong>只貼這份審查包，請 AI 檢查忠實度和覆蓋率（不要叫寫簡報的對話審自己的作品）；再看「重點 ↔ 原文」對照表人工抽查。講反或講過頭 → 只回去改那一頁。</li><li>在 <code>log/run-日期.md</code> 記下這次每個節點發生什麼事、哪裡失敗、怎麼修，原始輸出存到 <code>log/check-outputs/</code>。</li></ol>
 <h3>C. 發布</h3>
 <ol><li><strong>先確認 <code>python3 tools/check.py all</code> 的結束碼是 0</strong>（不要接 <code>| tee</code> 又接 <code>&amp;&amp; git commit</code>，tee 會吃掉錯誤碼；要存輸出請先 <code>set -o pipefail</code>），才 <code>git add -A &amp;&amp; git commit</code>，push 到 GitHub（repo 要是 public）。</li><li>Settings → Pages → Deploy from branch → <code>main</code> / root。</li><li>等 Pages 建好，用 curl 確認 <code>index.html</code>、<code>wiki/index.html</code>、<code>slides/index.html</code> 和每一頁 wiki 都是 HTTP 200。</li><li>再實際打開（或截圖）看 wiki 索引和簡報前幾頁有沒有跑版——200 不代表畫面是對的。</li></ol>
 <h2>5. 怎樣才算完成</h2>
-<ul><li>[ ] <code>python3 tools/check.py all</code> 顯示「通過 ✅」</li><li>[ ] raw/ 至少 5 個來源，都有網址</li><li>[ ] 簡報每一頁頁尾都有「📚 Wiki 出處」連結</li><li>[ ] <code>log/run-*.md</code> 有這次的執行紀錄（含失敗和修正）</li><li>[ ] 線上網址都能打開</li></ul>
+<ul><li>[ ] <code>python3 tools/check.py all</code> 顯示「通過 ✅」</li><li>[ ] raw/ 至少 5 個來源，都有網址</li><li>[ ] 簡報 8–15 頁，每一頁頁尾都有「📚 Wiki 出處」連結，桌機和手機都沒有溢出</li><li>[ ] <code>log/run-*.md</code> 有這次的執行紀錄（含失敗和修正）</li><li>[ ] 線上網址都能打開</li></ul>
 <h2>6. 簡報風格（摘要，完整見 slides/style.md）</h2>
 <p>米白底、深藍字、黃色重點；每頁最多 4 個重點＋一個簡單圖示；← → / 空白鍵 / 手機滑動換頁；單一 HTML 檔、不連外部資源。</p>
 </main>

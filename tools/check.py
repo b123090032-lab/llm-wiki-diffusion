@@ -4,6 +4,7 @@
   python3 tools/check.py wiki     # 檢查 wiki：連結、孤兒頁、來源標記、frontmatter
   python3 tools/check.py pages    # 【提前的檢查】產生簡報前，先檢查大綱和逐頁內容
   python3 tools/check.py slides   # 檢查簡報：每頁都有 wiki 出處、每個重點都找得到原文
+  python3 tools/check.py render   # 用 headless Chrome 實際渲染，檢查桌機／手機每頁有沒有溢出
   python3 tools/check.py links    # 檢查所有 HTML 裡的本地連結都存在
   python3 tools/check.py all      # 全部
 有任何錯誤就 exit 1，並印出要退回哪個關卡。
@@ -156,8 +157,19 @@ def check_slides():
             free = re.sub(r"Q\d", "", li["free"])
             if re.search(r"\d", free):
                 err("逐頁內容", f"投影片 {sid} 有沒標出處的數字：「{li['free'].strip()[:40]}」")
-    if len(p.slides) < 8:
-        err("寫大綱", f"簡報只有 {len(p.slides)} 頁，太少")
+    if not 8 <= len(p.slides) <= 15:
+        err("寫大綱", f"簡報有 {len(p.slides)} 頁，規格是 8–15 頁")
+    # 覆蓋率：簡報引用到的 wiki 頁，追回去用到了幾個來源
+    used = set()
+    for s in p.slides:
+        for w in s["wiki"]:
+            if w in pages:
+                used |= set(re.findall(r"\[(S\d+)\]", read(pages[w])))
+    allsrc = {"S" + os.path.basename(x)[:2].lstrip("0") for x in glob.glob(os.path.join(ROOT, "raw/*.md"))}
+    missing = sorted(allsrc - used)
+    if missing:
+        err("寫大綱", f"簡報引用的 wiki 頁沒有用到這些來源：{missing}（覆蓋率不足）")
+    print(f"coverage：簡報間接用到 {len(used & allsrc)}/{len(allsrc)} 個來源")
     print(f"slides：{len(p.slides)} 頁，{n_claims} 個重點已比對")
 
 
@@ -199,6 +211,26 @@ def check_pages():
     print(f"pages：逐頁內容 {n} 個重點已比對")
 
 
+# ---------------- render（渲染後有沒有溢出） ----------------
+def check_render():
+    import json, shutil, subprocess
+    chrome = shutil.which("google-chrome") or shutil.which("chromium") or shutil.which("chromium-browser")
+    if not chrome:
+        warns.append("找不到 Chrome，跳過渲染檢查"); return
+    url = "file://" + os.path.join(ROOT, "slides/index.html") + "?check=1"
+    for name, size in (("桌機", "1280,720"), ("手機", "390,844")):
+        out = subprocess.run([chrome, "--headless=new", "--disable-gpu", "--no-sandbox", f"--window-size={size}",
+                              "--virtual-time-budget=3000", "--dump-dom", url], capture_output=True, text=True, timeout=60).stdout
+        m = re.search(r'<pre id="render-report">(.*?)</pre>', out, re.S)
+        if not m:
+            err("產生簡報", f"{name}渲染檢查拿不到結果"); continue
+        rep = json.loads(html.unescape(m.group(1)))
+        bad = [x["slide"] for x in rep["slides"] if x["overflow"]]
+        if bad:
+            err("產生簡報", f"{name}（{size}）第 {bad} 頁內容超出投影片範圍（溢出）")
+        print(f"render：{name} {size} 檢查 {len(rep['slides'])} 頁，溢出 {len(bad)} 頁")
+
+
 # ---------------- links ----------------
 class LinkParser(HTMLParser):
     def __init__(self):
@@ -230,6 +262,7 @@ if __name__ == "__main__":
     if mode in ("wiki", "all"): check_wiki()
     if mode in ("pages", "all"): check_pages()
     if mode in ("slides", "all"): check_slides()
+    if mode in ("render", "all"): check_render()
     if mode in ("links", "all"): check_links()
     for w in warns: print("⚠️ ", w)
     for e in errors: print("❌", e)

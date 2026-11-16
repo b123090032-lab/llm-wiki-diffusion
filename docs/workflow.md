@@ -24,6 +24,7 @@ flowchart TD
   G -- 通過 --> H[⑧ 產生簡報]
   H --> I{⑨ 簡報檢查<br>slides / links}
   I -- 格式、連結錯 --> H
+  I -- 溢出 --> F
   I -- 通過 --> J{⑩ 人工抽查重點}
   J -- 講過頭 --> F
   J -- OK --> K{⑪ 發布＋線上檢查}
@@ -42,9 +43,20 @@ flowchart TD
 | ⑥ 逐頁內容 | 只用 wiki 寫每頁重點，每個事實用 `{{文字||wiki頁||原文}}` 標出處 | outline/pages.md | — |
 | ⑦ 逐頁檢查【提前】 | `check.py pages`：原文找得到嗎？有沒有沒標出處的數字？ | 檢查報告 | 原文對不上 → 回 ⑥（loop，最多 3 輪）；wiki 根本沒有 → 回 ① |
 | ⑧ 產生簡報 | `make_slides.py` 照 style.md 產生單一 HTML | slides/index.html | — |
-| ⑨ 簡報檢查 | `check.py slides`、`check.py links` | 檢查報告 | 失敗 → 回 ⑧ |
-| ⑩ 人工抽查 | 看「重點 ↔ 原文」對照表，抓程式抓不到的「講過頭」 | 對照表 | 講過頭 → 回 ⑥ |
+| ⑨ 簡報檢查 | `check.py slides`（8–15 頁、出處、覆蓋率）、`check.py render`（headless Chrome 桌機／手機溢出）、`check.py links` | 檢查報告 | 格式錯 → 回 ⑧；溢出 → 回 ⑥ 縮短那頁 |
+| ⑩ 審查 | 審查包（`tools/review_packet.py`）給新對話的 AI 審查忠實度／覆蓋率；加上看「重點 ↔ 原文」對照表人工抽查 | 審查意見、對照表 | 講反、講過頭 → 只回 ⑥ 修那頁 |
 | ⑪ 發布 | git push → GitHub Pages → curl 每一頁都要 200 → 再截圖實際看畫面 | 網址、截圖 | 404 或跑版 → 回 ⑧（wiki 跑版回 ②） |
+
+## Loop 規格（五件事）
+| | 內容 |
+|---|---|
+| 🎯 目標 | 只用 wiki，產出教新手的 HTML 簡報 |
+| 🚧 限制 | 不用 wiki 以外的知識；不手改 slides/index.html；不改 raw/ |
+| ✅ 完成標準 | `check.py all` 結束碼 0（出處、原文、數字、8–15 頁、覆蓋 8 個來源、不溢出、連結）＋審查沒有講反／講過頭 |
+| 🛑 停止條件 | 全過就停；同一格最多 3 輪；相關 wiki 頁少於 3 頁一開始就停 |
+| ⏰ 觸發 | 輸入 `/topic-slides`，或 wiki 有新的 ingest 之後 |
+
+Antigravity 版的 workflow 檔在 [.agents/workflows/topic-slides.md](https://github.com/b123090032-lab/llm-wiki-diffusion/blob/main/.agents/workflows/topic-slides.md)。
 
 ## 哪些步驟會重複？為什麼？
 - **⑥ ⇄ ⑦ 是 loop**：寫逐頁內容最容易出錯（AI 會順手補上 wiki 沒有的知識），所以每寫完一輪就檢查，每輪只修檢查報告列出的問題。設 **最多 3 輪** 的停損點，還不過就代表 wiki 本身缺資料，停下來讓人決定。

@@ -115,4 +115,5 @@ document.getElementById('next').onclick=()=>go(i+1);document.getElementById('pre
 let x0=null;document.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
 document.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50)go(i+(dx<0?1:-1));x0=null});
 go((parseInt(location.hash.slice(1))||1)-1);
+if(location.search.includes('check')){const r=[];S.forEach((s,k)=>{go(k);const o=s.scrollHeight>s.clientHeight+2||s.scrollWidth>s.clientWidth+2;r.push({slide:k+1,overflow:o,sh:s.scrollHeight,ch:s.clientHeight});});go(0);const p=document.createElement('pre');p.id='render-report';p.textContent=JSON.stringify({w:innerWidth,h:innerHeight,slides:r});document.body.appendChild(p);}
 </script></body></html>
