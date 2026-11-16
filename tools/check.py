@@ -42,7 +42,8 @@ def check_wiki():
     inbound = {k: 0 for k in pages}
     for name, path in pages.items():
         text = read(path)
-        for link in re.findall(r"\[\[([^\]|]+)", text):
+        text_nocode = re.sub(r"`[^`]*`", "", text)  # 行內程式碼裡的 [[...]] 是範例，不算連結
+        for link in re.findall(r"\[\[([^\]|]+)", text_nocode):
             if link not in pages:
                 err("整理 Wiki", f"{name}.md 連到不存在的頁面 [[{link}]]")
             elif link != name:

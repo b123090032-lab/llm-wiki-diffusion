@@ -66,7 +66,7 @@ index.html        專案首頁（連到 wiki 和簡報）
 8. 在 `log/run-日期.md` 記下這次每個節點發生什麼事、哪裡失敗、怎麼修，原始輸出存到 `log/check-outputs/`。
 
 ### C. 發布
-1. `git add -A && git commit`，push 到 GitHub（repo 要是 public）。
+1. **先確認 `python3 tools/check.py all` 的結束碼是 0**（不要接 `| tee` 又接 `&& git commit`，tee 會吃掉錯誤碼；要存輸出請先 `set -o pipefail`），才 `git add -A && git commit`，push 到 GitHub（repo 要是 public）。
 2. Settings → Pages → Deploy from branch → `main` / root。
 3. 等 Pages 建好，用 curl 確認 `index.html`、`wiki/index.html`、`slides/index.html` 和每一頁 wiki 都是 HTTP 200。
 4. 再實際打開（或截圖）看 wiki 索引和簡報前幾頁有沒有跑版——200 不代表畫面是對的。
