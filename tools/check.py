@@ -47,6 +47,9 @@ def check_wiki():
                 err("整理 Wiki", f"{name}.md 連到不存在的頁面 [[{link}]]")
             elif link != name:
                 inbound[link] += 1
+        for line in text.splitlines():
+            if line.startswith("|") and re.search(r"\[\[[^\]]*\|[^\]]*\]\]", line):
+                err("整理 Wiki", f"{name}.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：{line[:40]}")
         cites = set(re.findall(r"\[(S\d+)\]", text))
         for c in cites:
             if c not in raw_ids:

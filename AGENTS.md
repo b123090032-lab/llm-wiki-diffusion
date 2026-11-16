@@ -32,6 +32,7 @@ index.html        專案首頁（連到 wiki 和簡報）
 - 每頁開頭有 frontmatter：`title`、`type`（concept / comparison / source / overview / glossary / index / log）、`sources`、`updated`。
 - **每一句事實後面標來源** `[S1]`～`[S8]`；frontmatter 的 `sources` 要跟內文實際用到的一致。
 - 頁面之間用 Obsidian 雙向連結：`[[concepts/forward-process|前向過程]]`。每頁最後有「相關頁面」。
+- 表格裡不要用 `[[頁面|文字]]`（直線會切壞表格），要用連結就改成清單。
 - 新頁面一定要加進 `wiki/index.md`，而且至少要有一頁連過來（不能有孤兒頁）。
 - 比喻、白話說明可以不標來源，但**不能夾帶新的事實或數字**。
 - 不要把 API key、密碼、個資放進專案（會公開在 GitHub 上）。
@@ -67,7 +68,8 @@ index.html        專案首頁（連到 wiki 和簡報）
 ### C. 發布
 1. `git add -A && git commit`，push 到 GitHub（repo 要是 public）。
 2. Settings → Pages → Deploy from branch → `main` / root。
-3. 等 Pages 建好，用瀏覽器或 curl 確認 `index.html`、`wiki/index.html`、`slides/index.html` 和每一頁 wiki 都能打開（HTTP 200）。
+3. 等 Pages 建好，用 curl 確認 `index.html`、`wiki/index.html`、`slides/index.html` 和每一頁 wiki 都是 HTTP 200。
+4. 再實際打開（或截圖）看 wiki 索引和簡報前幾頁有沒有跑版——200 不代表畫面是對的。
 
 ## 5. 怎樣才算完成
 - [ ] `python3 tools/check.py all` 顯示「通過 ✅」

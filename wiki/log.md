@@ -24,3 +24,7 @@ updated: 2026-11-16
 ## [2026-11-16] ingest | S8 Hugging Face：Stable Diffusion with Diffusers
 - 為了上面兩個數字回到「取得資料」補抓 S8。結果發現我的印象不準：官方建議的預設是 **50 步**（不是 20～50），15 步品質就會明顯變差。
 - 新增 concepts/stable-diffusion-pipeline；更新 latent-diffusion、sampling-speed、text-conditioning、index。
+
+## [2026-11-16] lint | 發布後發現 index 表格跑版
+- 線上截圖看到「來源摘要」表格跑版：表格裡 `[[頁面|文字]]` 的直線被當成欄位分隔。
+- 修正：改成清單；`check.py wiki` 新增「表格裡不能有帶直線的雙向連結」規則。

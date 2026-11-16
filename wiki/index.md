@@ -30,16 +30,14 @@ updated: 2026-11-16
 - [[comparisons/ddpm-vs-ddim|DDPM vs DDIM]]
 
 ## 來源摘要（sources）
-| 編號 | 頁面 | 類型 |
-|---|---|---|
-| S1 | [[sources/s1-ddpm|DDPM 論文（Ho et al., 2020）]] | 論文 |
-| S2 | [[sources/s2-lilian-weng|Lilian Weng：What are Diffusion Models?]] | 部落格 |
-| S3 | [[sources/s3-hf-annotated|Hugging Face：The Annotated Diffusion Model]] | 部落格＋程式 |
-| S4 | [[sources/s4-ddim|DDIM 論文（Song et al., 2020）]] | 論文 |
-| S5 | [[sources/s5-latent-diffusion|Latent Diffusion 論文（Rombach et al., 2022）]] | 論文 |
-| S6 | [[sources/s6-cfg|Classifier-Free Guidance 論文]] | 論文 |
-| S7 | [[sources/s7-wikipedia|Wikipedia：Diffusion model]] | 百科 |
-| S8 | [[sources/s8-hf-stable-diffusion|Hugging Face：Stable Diffusion with Diffusers]] | 部落格＋程式 |
+- **S1**　[[sources/s1-ddpm|DDPM 論文（Ho et al., 2020）]]（論文）
+- **S2**　[[sources/s2-lilian-weng|Lilian Weng：What are Diffusion Models?]]（部落格）
+- **S3**　[[sources/s3-hf-annotated|Hugging Face：The Annotated Diffusion Model]]（部落格＋程式）
+- **S4**　[[sources/s4-ddim|DDIM 論文（Song et al., 2020）]]（論文）
+- **S5**　[[sources/s5-latent-diffusion|Latent Diffusion 論文（Rombach et al., 2022）]]（論文）
+- **S6**　[[sources/s6-cfg|Classifier-Free Guidance 論文]]（論文）
+- **S7**　[[sources/s7-wikipedia|Wikipedia：Diffusion model]]（百科）
+- **S8**　[[sources/s8-hf-stable-diffusion|Hugging Face：Stable Diffusion with Diffusers]]（部落格＋程式）
 
 ## 維護紀錄
 - [[log|wiki 維護紀錄（log.md）]]：每次 ingest／query／lint 都記在這裡

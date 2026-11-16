@@ -1,0 +1,10 @@
+wiki：24 頁，8 個來源
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S1 | [[sources/s1-ddpm|DDPM 論文（Ho et a
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S2 | [[sources/s2-lilian-weng|Lilian W
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S3 | [[sources/s3-hf-annotated|Hugging
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S4 | [[sources/s4-ddim|DDIM 論文（Song et
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S5 | [[sources/s5-latent-diffusion|Lat
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S6 | [[sources/s6-cfg|Classifier-Free 
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S7 | [[sources/s7-wikipedia|Wikipedia：
+❌ [退回：整理 Wiki] index.md 的表格裡用了 [[頁面|文字]]，直線會把表格切壞：| S8 | [[sources/s8-hf-stable-diffusion|
+結果： 8 個錯誤
